@@ -1,0 +1,10 @@
+{
+    "main": "src/index.js",
+    "type": "module",
+    "scripts": {
+        "start": "npx nodemon src/index"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.15"
+    }
+}
