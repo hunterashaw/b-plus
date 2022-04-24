@@ -1,7 +1,7 @@
-import { expect } from '@jest/globals'
-import { Page, Leaf } from '../src/index'
+import { expect, test } from '@jest/globals'
+import { Page, Leaf, Node } from '../index'
 
-test('page sorting', () => {
+test('Page Sorting', () => {
     const page = new Page()
     const entries = [
         { key: 'key 1', value: 'value 1' },
@@ -21,7 +21,7 @@ test('page sorting', () => {
     ])
 })
 
-test('page serialization', () => {
+test('Page Serialization', () => {
     const page = new Page()
     const entries = [
         { key: 'key 1', value: 'value 1' },
@@ -32,5 +32,27 @@ test('page serialization', () => {
     ]
     entries.forEach(({ key, value }) => page.insert(key, value))
 
-    expect(new Page(page.serialize()).entries).toEqual(page.entries)
+    expect(new Page({ buffer: page.serialize() }).entries).toEqual(page.entries)
+})
+
+test('Node Lookup', () => {
+    const pages = new Map()
+    const node = new Node()
+
+    for (let i = 0; i < 4; i++) {
+        const leaf = new Leaf()
+
+        for (let p = 0; p < 10; p++)
+            leaf.insert(`key ${i}${p}`, `value ${i}${p}`)
+
+        const high_key = leaf.entries[leaf.entries.length - 1].key
+        const page_key = (i + 1).toString()
+
+        node.insert(high_key, page_key)
+        pages.set(page_key, leaf)
+    }
+
+    const lookup = 'key 21'
+    const leaf = pages.get(node.lookup(lookup))
+    expect(leaf.equal_to(lookup)).toEqual(['value 21'])
 })

@@ -8,24 +8,38 @@ const decoder = new TextDecoder()
  */
 
 /**
+ * @typedef PageOptions
+ * @property {ArrayBuffer} buffer
+ * @property {KeyValue[]} entries
+ */
+
+/**
  * @property {KeyValue[]} entries
  * @property {number} type
  * @property {number} length
  */
 export default class Page {
     /**
-     * @param {ArrayBuffer} buffer
+     * @param {PageOptions} buffer
      */
-    constructor(buffer = undefined) {
-        if (buffer) {
+    constructor(options = {}) {
+        if (options.buffer) {
             const [type, pointers_length, heap_length] = new Uint32Array(
-                buffer,
+                options.buffer,
                 0,
                 3
             )
-            const pointers = new Uint32Array(buffer, 12, pointers_length)
+            const pointers = new Uint32Array(
+                options.buffer,
+                12,
+                pointers_length
+            )
             const heap = decoder.decode(
-                new Uint8Array(buffer, 4 * (pointers_length + 3), heap_length)
+                new Uint8Array(
+                    options.buffer,
+                    4 * (pointers_length + 3),
+                    heap_length
+                )
             )
 
             this.type = type
@@ -42,6 +56,10 @@ export default class Page {
         } else {
             this.entries = []
             this.length = 12
+            if (options.entries)
+                options.entries.forEach(({ key, value }) =>
+                    this.insert(key, value)
+                )
         }
     }
 

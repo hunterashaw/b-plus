@@ -1,8 +1,8 @@
 import Page from './Page.js'
 
 export default class Leaf extends Page {
-    constructor(buffer = undefined) {
-        super(buffer)
+    constructor(options) {
+        super(options)
         if (this.type === undefined) this.type = 0
     }
 
