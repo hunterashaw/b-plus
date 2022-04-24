@@ -2,9 +2,11 @@
     "main": "src/index.js",
     "type": "module",
     "scripts": {
-        "start": "npx nodemon src/index"
+        "start": "npx nodemon src/index",
+        "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
     },
     "devDependencies": {
+        "jest": "^27.5.1",
         "nodemon": "^2.0.15"
     }
 }
