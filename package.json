@@ -3,10 +3,12 @@
     "type": "module",
     "scripts": {
         "start": "npx nodemon index",
-        "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
+        "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
+        "build": "npx rollup -c rollup.config.js"
     },
     "devDependencies": {
         "jest": "^27.5.1",
-        "nodemon": "^2.0.15"
+        "nodemon": "^2.0.15",
+        "rollup": "^2.70.2"
     }
 }

@@ -1,6 +1,6 @@
 import Page from './Page.js'
 
-export default class Leaf extends Page {
+export default class Node extends Page {
     constructor(options) {
         super(options)
         if (this.type === undefined) this.type = 1
